@@ -6,7 +6,7 @@
   <a href="https://www.python.org/downloads/release/python-3100/"><img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="Python 3.10+"></a>
 </p>
 <p align="center">
-  <img src="assets/affiliations.png" alt="Stanford University · KAUST · University of Toronto · MIT" height="80">
+  <img src="assets/affiliations_v2.png" alt="Stanford University · KAUST · University of Toronto · MIT" height="80">
 </p>
 
 Official code for the paper: **"Multi-User Large Language Model Agents"**
