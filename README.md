@@ -385,19 +385,6 @@ Muses-Bench uses [LiteLLM](https://github.com/BerriAI/litellm) and supports **10
 └── scripts/                # Batch evaluation helpers
 ```
 
-## 📜 Citation
-
-If you find Muses-Bench useful, please cite our paper:
-
-```bibtex
-@inproceedings{yang2026multiuser,
-  title={Multi-User Large Language Model Agents},
-  author={Yang, Shu and others},
-  booktitle={International Conference on Machine Learning (ICML)},
-  year={2026}
-}
-```
-
 ## 📄 License
 
 This project is licensed under the [Apache License 2.0](LICENSE).
