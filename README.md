@@ -385,3 +385,7 @@ Multi-User LLM uses [LiteLLM](https://github.com/BerriAI/litellm) and supports *
 
 This project is licensed under the [Apache License 2.0](LICENSE).
 
+## 📝 Citation
+
+TODO
+
