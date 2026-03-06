@@ -57,8 +57,8 @@ scripts/            # Batch submission & evaluation helpers
 ### Installation
 
 ```bash
-git clone https://github.com/<your-org>/Muses-bench.git
-cd Muses-bench
+git clone https://github.com/shuyhere/multi-user-llm.git
+cd multi-user-llm
 pip install -e .
 ```
 
@@ -90,7 +90,7 @@ ANTHROPIC_API_KEY=your-api-key-here
 # Access Control (single-turn)
 python run.py \
     --scenario access_control \
-    --data data/scenarios/access_control/test_datasets/access_control_single_turn_key_2_to_5_each_2.jsonl \
+    --data data/scenarios/access_control/test_datasets/controlled_exp_large/template_xml_attack_none_2_to_10_each_2.jsonl \
     --model gpt-4o-mini \
     --provider openai \
     --output results/ac_results.jsonl \
@@ -99,7 +99,7 @@ python run.py \
 # Meeting Scheduling
 python run.py \
     --scenario meeting_scheduling \
-    --data data/scenarios/meeting_scheduling/test_data_114_version.jsonl \
+    --data data/scenarios/meeting_scheduling/data_builder/controlled_exp_large/disclosure_full_2_to_10_each_4.jsonl \
     --model claude-3-5-sonnet-20241022 \
     --provider anthropic \
     --output results/ms_results.jsonl \
@@ -116,7 +116,7 @@ python run.py \
 # Multi-User Instruction Following
 python run.py \
     --scenario multiuser_instruction_following \
-    --data data/scenarios/multiuser_instruction_following/benchmark_data.jsonl \
+    --data data/scenarios/multiuser_instruction_following/data_builder/controlled_exp/conflict_2_to_10.jsonl \
     --model gpt-4o \
     --provider openai \
     --output results/if_results.jsonl
@@ -145,18 +145,16 @@ All test data is in `data/scenarios/`. Each scenario provides ready-to-use JSONL
 
 | Dataset | Description | Users |
 |:---|:---|:---|
-| `test_datasets/access_control_single_turn_key_2_to_5_each_2.jsonl` | Single-turn credential access (28 samples) | 2–5 |
-| `test_datasets/access_control_single_turn_real_life_2_to_5_each_2.jsonl` | Realistic role-based scenarios (28 samples) | 2–5 |
-| `test_datasets/access_control_multi_turn_real_life_key_2_to_5_each_2.jsonl` | Multi-turn with social engineering attacks (28 samples) | 2–5 |
-| `test_datasets/controlled_exp_large/` | Controlled experiments: 3 formats × 4 attack types (12 files, 18 samples each) | 2–10 |
+| `test_datasets/controlled_exp_large/` | Controlled experiments: 3 formats (xml/colon/says) × 4 attack types (none/fake_authorized/pressure/roleplaying) — 12 files, 18 samples each | 2–10 |
 
 ### Meeting Scheduling
 
 | Dataset | Description | Users |
 |:---|:---|:---|
-| `test_data_114_version.jsonl` | Standard test set (144 samples) | 2–8 |
-| `meeting_scheduling_10_20_users.jsonl` | Large-scale scenarios (66 samples) | 10–20 |
-| `scale_data/` | Scalability experiments: full/partial disclosure (108 samples each) | 10–30 |
+| `data_builder/controlled_exp_large/disclosure_full_2_to_10_each_4.jsonl` | Full disclosure experiments (108 samples) | 2–10 |
+| `data_builder/controlled_exp_large/disclosure_partial_2_to_10_each_4.jsonl` | Partial disclosure experiments (108 samples) | 2–10 |
+| `scale_data/meeting_scheduling_disclosure_full_10_to_30_each_4.jsonl` | Large-scale full disclosure (108 samples) | 10–30 |
+| `scale_data/meeting_scheduling_disclosure_partial_10_to_30_each_4.jsonl` | Large-scale partial disclosure (108 samples) | 10–30 |
 
 ### Shared Queue
 
@@ -168,7 +166,6 @@ All test data is in `data/scenarios/`. Each scenario provides ready-to-use JSONL
 
 | Dataset | Description | Users |
 |:---|:---|:---|
-| `benchmark_data.jsonl` | Multi-stakeholder instruction constraints (1298 samples) | 2–8 |
 | `data_builder/controlled_exp/aligned_2_to_10.jsonl` | Aligned conditions (187 samples) | 2–10 |
 | `data_builder/controlled_exp/conflict_2_to_10.jsonl` | Conflict conditions (368 samples) | 2–10 |
 
@@ -318,7 +315,7 @@ python multiuser_llm_training/training/train.py \
 # Use vLLM provider with optional LoRA
 python run.py \
     --scenario access_control \
-    --data data/scenarios/access_control/test_datasets/access_control_single_turn_key_2_to_5_each_2.jsonl \
+    --data data/scenarios/access_control/test_datasets/controlled_exp_large/template_xml_attack_none_2_to_10_each_2.jsonl \
     --model <your-model-path> \
     --provider vllm \
     --lora-path <optional-lora-path> \
