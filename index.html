@@ -1,0 +1,533 @@
+<html>
+  <head>
+
+<script src="jquery.min.js"></script>
+
+<link rel="shortcut icon" href="icon.ico">
+<style type="text/css">
+	body {
+		background-color: #f5f9ff;
+	}
+
+  /* MathJax-only rendering */
+  .mathjax-mobile { display: block; }
+
+	.content-margin-container {
+		display: flex;
+		width: 100%; /* Ensure the container is full width */
+		justify-content: left; /* Horizontally centers the children in the container */
+		align-items: center;  /* Vertically centers the children in the container */
+	}
+	.main-content-block {
+		width: 85%; /* Fill remaining space after 15% left nav */
+    max-width: none;
+		background-color: #fff;
+		border-left: 1px solid #DDD;
+		border-right: 1px solid #DDD;
+		padding: 8px 8px 8px 8px;
+		font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	}
+	.margin-left-block {
+			font-size: 14px;
+			width: 15%; /* Change this percentage as needed */
+			max-width: 130px; /* Optional: Maximum width */
+			position: relative;
+			margin-left: 10px;
+			text-align: left;
+			font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+			padding: 5px;
+	}
+	.margin-right-block {
+			font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+			font-size: 14px;
+			width: 25%; /* Change this percentage as needed */
+			max-width: 256px; /* Optional: Maximum width */
+			position: relative;
+			text-align: left;
+			padding: 10px;  /* Optional: Adds padding inside the caption */
+			display: none; /* Hide right-side explanatory bar globally */
+	}
+
+	img {
+			max-width: 100%; /* Make sure it fits inside the container */
+			height: auto;
+			display: block;
+			margin: auto;
+	}
+
+	a:link,a:visited
+	{
+		color: #1E3A5F;
+		text-decoration: none;
+	}
+	a:hover {
+		color: #2A5A8F;
+	}
+
+	h1 {
+		font-size: 18px;
+		margin-top: 4px;
+		margin-bottom: 10px;
+	}
+
+table.header {
+    font-weight: 300;
+    font-size: 17px;
+    flex-grow: 1;
+    width: 70%;
+    max-width: calc(100% - 290px); /* Adjust according to the width of .paper-code-tab */
+}
+/* Increase spacing between title row and authors row */
+table.header tr:first-child td { padding-bottom: 6px; }
+/* Increase spacing between authors row and affiliations row */
+table.header tr:nth-child(2) td { padding-bottom: 5px; }
+		table td, table td * {
+	    vertical-align: middle;
+	    position: relative;
+	}
+  /* Authors block extracted from table cells; prevent breaking a single name */
+  .authors-list {
+      display: flex;
+      flex-wrap: wrap;
+      column-gap: 30px;
+      row-gap: 6px;
+      margin-top: 4px; /* extra gap below the title */
+  }
+  .authors-list a { white-space: nowrap; font-size: 17px; }
+  /* Superscript styling for authors/affiliations */
+  .authors-list sup, .affiliations sup {
+    font-size: 0.75em;
+    line-height: 0;
+    position: relative;
+    top: -0.45em;
+  }
+	table.paper-code-tab {
+	    flex-shrink: 0;
+	    margin-left: auto;
+	    margin-right: 50px;
+	    margin-top: 8px;
+	    padding: 0px 0px 0px 8px;
+	    width: 290px;
+	    height: 150px;
+	}
+
+	.layered-paper { /* modified from: http://css-tricks.com/snippets/css/layered-paper/ */
+		box-shadow:
+		        0px 0px 1px 1px rgba(0,0,0,0.35),
+		        5px 5px 0 0px #fff,
+		        5px 5px 1px 1px rgba(0,0,0,0.35),
+		        10px 10px 0 0px #fff,
+		        10px 10px 1px 1px rgba(0,0,0,0.35);
+		margin-top: 5px;
+		margin-left: 10px;
+		margin-right: 30px;
+		margin-bottom: 5px;
+	}
+
+	hr {
+    height: 1px;
+    border: none;
+    background-color: #DDD;
+  }
+
+	div.hypothesis {
+		width: 80%;
+		background-color: #EEE;
+		border: 1px solid black;
+		border-radius: 10px;
+		-moz-border-radius: 10px;
+		-webkit-border-radius: 10px;
+		font-family: Courier;
+		font-size: 18px;
+		text-align: center;
+		margin: auto;
+		padding: 16px 16px 16px 16px;
+	}
+
+	/* Affiliations (static) */
+    .affiliations { font-size: 18px; display: flex; flex-wrap: wrap; gap: 6px 24px; align-items: baseline; }
+    .affiliations .sep { opacity: 0.5; }
+    .author-notes { font-size: 13px; color: #444; margin-top: 1px; text-align: left; }
+
+    /* Small caps like \textsc{} */
+    .sc {
+      font-variant: small-caps;
+      font-variant-caps: all-small-caps;
+      font-feature-settings: 'smcp' 1, 'c2sc' 1;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    /* Figure caption styling */
+    .fig-caption {
+      font-size: 14px;
+      color: #444;
+      text-align: center;
+      margin-top: 6px;
+      margin-bottom: 10px;
+      line-height: 1.4;
+    }
+    .fig-caption b {
+      color: #222;
+    }
+
+</style>
+<style type="text/css">
+  /* Mobile tweaks: stack layout, responsive media, friendlier spacing */
+  @media (max-width: 768px) {
+    .content-margin-container { flex-direction: column; align-items: stretch; }
+    .margin-left-block { display: none; }
+    .main-content-block { width: 100%; border-left: none; border-right: none; padding: 8px 10px; }
+
+    /* Header title uses full width; Paper/Code stacks below and centers */
+    table.header { width: 100% !important; max-width: 100% !important; display: block; }
+    table.paper-code-tab { margin-left: auto; margin-right: auto; float: none; width: auto; height: auto; }
+    .layered-paper { margin-left: 0 !important; }
+
+    /* Make images and iframes responsive even if inline width is set */
+    .main-content-block img { max-width: 100% !important; width: 100% !important; height: auto !important; }
+
+    /* Slightly smaller author font on mobile */
+    .authors-list a { font-size: 16px; }
+    .affiliations { font-size: 16px; gap: 4px 12px; }
+  }
+</style>
+
+	  <title>Multi-User Large Language Model Agents</title>
+      <meta property="og:title" content="Multi-User Large Language Model Agents" />
+			<meta charset="UTF-8">
+  </head>
+
+  <body>
+
+		<div class="content-margin-container">
+				<div class="margin-left-block">
+				</div>
+		    <div class="main-content-block">
+						<table class="header" align=left>
+                        <tr>
+                                <td colspan=4>
+								<span style="font-size: 36px; font-family: 'Courier New', Courier, monospace;">Multi-User Large Language Model Agents</span>
+								</td>
+							</tr>
+                        <tr>
+                                <td colspan=4 align=left>
+                                    <div class="authors-list">
+                                        <a href="https://shuyhere.notion.site/Shu-Yang-1210f14e46e080f18511e448279487e6">Shu Yang<sup>2</sup></a>
+                                        <a href="https://shenzhezhu.github.io/">Shenzhe Zhu<sup>3</sup></a>
+                                        <a href="https://hao.computer/">Hao Zhu<sup>1</sup></a>
+                                        <a href="https://jrenriquez.github.io/">Jos&eacute; Ram&oacute;n Enr&iacute;quez<sup>1</sup></a>
+                                        <a href="https://shao3wangdi.github.io/">Di Wang<sup>2</sup></a>
+                                        <a href="https://www.media.mit.edu/people/sandy/overview/">Alex Pentland<sup>1,4</sup></a>
+                                        <a href="https://miba.dev/">Michiel A. Bakker<sup>1</sup></a>
+                                        <a href="https://jiaxin-pei.github.io/">Jiaxin Pei<sup>1,📮</sup></a>
+                                    </div>
+                                </td>
+                        <tr>
+                                <td colspan=4 align=left height=30px>
+                                    <div class="affiliations">
+                                        <span>Stanford University<sup>1</sup></span>
+                                        <span class="sep"></span>
+                                        <span>KAUST<sup>2</sup></span>
+                                        <span class="sep"></span>
+                                        <span>University of Toronto<sup>3</sup></span>
+                                        <span class="sep"></span>
+                                        <span>MIT<sup>4</sup></span>
+                                    </div>
+                                </td>
+                        </tr>
+                        <tr>
+                                <td colspan=4 align=left>
+                                    <div class="author-notes">📮 Corresponding author</div>
+                                </td>
+                        </tr>
+						</table>
+
+						<table class="paper-code-tab" align=center>
+							<tr height:125>
+								<td style="vertical-align: top; text-align: center; width: 50px; border-left: 1px dotted black;">
+										<span style="font-size:20px"><a href='#'>Paper</a></span>
+										<span style="font-size:42px"><a href='#'><img class="layered-paper" style="height:100px;  margin-left:28px" src="image/paper_pdf_thumb.png"></a>
+								</td>
+								<td style="vertical-align: top; text-align: center; width: 50px;">
+										<span style="font-size:20px"><a href='https://github.com/shuyhere/multi-user-llm'>Code</a></span>
+										<span style="font-size:42px"><a href='https://github.com/shuyhere/multi-user-llm'><img style="border: 1px solid black; height:75px; margin-top:20px" src="code.png"></a>
+								</td>
+							</tr>
+						</table>
+					</div>
+
+		</div>
+
+
+		<div class="content-margin-container">
+				<div class="margin-left-block">
+                    <div style="position:fixed; max-width:inherit; top:max(20%,120px)">
+					<b style="font-size:16px">Outline</b><br><br>
+					<a href="index.html#introduction">Introduction</a><br><br>
+					<a href="index.html#formulation">Formulation &amp; Challenges</a><br><br>
+					<a href="index.html#stress_testing">Stress Testing</a><br><br>
+					<a href="index.html#results">Results</a><br><br>
+					<a href="index.html#future">Future Directions</a>
+                    </div>
+				</div>
+		    <div class="main-content-block">
+		        <img src="image/figure1_single_vs_multi.png" alt="Figure 1: From Single to Multiple Principal-Agent Scenario" style="width: 700px">
+		        <p class="fig-caption"><b>Figure 1.</b> From Single to Multiple Principal&ndash;Agent Scenario in User-LLM Interaction. <em>Left:</em> Single Principal&ndash;Agent settings, where the agent optimizes a single, fixed objective. <em>Right:</em> Multiple Principal&ndash;Agent settings, where the agent must handle private contexts, distinct roles, and conflicting objectives.</p>
+		    </div>
+
+		</div>
+
+		<div class="content-margin-container" id="introduction">
+				<div class="margin-left-block">
+				</div>
+		    <div class="main-content-block">
+				Large language models (LLMs) and LLM-based agent systems are increasingly deployed as assistants in planning and decision making, yet most existing systems are implicitly optimized for a <em>single-principal</em> interaction paradigm. However, as they are integrated into team workflows and organizational tools, they are increasingly required to serve multiple users simultaneously, each with distinct roles, preferences, and authority levels. This leads to multi-user, multi-principal settings with unavoidable conflicts, information asymmetry, and privacy constraints.
+						<br><br>
+						<div class="hypothesis" style="font-size: 16.5px;line-height: 1.25;font-weight: bold;">
+							How should LLM agents handle multi-user settings where they must serve multiple principals with conflicting interests, asymmetric information, and different authority levels?
+						</div>
+						<br><br>
+						We present the first systematic study of multi-user LLM agents. We formalize multi-user LLM interaction as a <em>multi-principal decision problem</em>, introduce a unified interaction protocol, and design three targeted stress-testing scenarios to evaluate current LLMs' capabilities in instruction following, privacy preservation, and coordination.
+		    </div>
+
+		</div>
+
+		<div class="content-margin-container" id="formulation">
+				<div class="margin-left-block">
+				</div>
+		    <div class="main-content-block">
+					<h1>Multi-User LLM Agents: Formulation &amp; Challenges</h1>
+
+                    <p>We study a setting where a single LLM-based agent interacts with a set of users \( \mathcal{U} = \{u_1, \ldots, u_N\} \). Each user \( u_i \) acts as an independent principal, characterized by an <em>authority persona</em> \( p_i \), a private context \( C_i \), and a user-specific utility function \( U_i \). The agent observes a selectively shared context \( C^{\mathrm{share}} \) and outputs an action \( a \).</p>
+
+                    <p>Unlike single-user interaction, the agent must make decisions that jointly affect multiple users. We model the interaction as a <em>multi-objective decision problem</em>:</p>
+
+                    <center>
+                        <div class="mathjax-mobile">
+                            \[ \max_{a \in \mathcal{A}} \;\sum_{i=1}^{N} w_i \, U_i(a;\, C_i,\, p_i), \]
+                        </div>
+                    </center>
+
+                    <p>where \( w_i \geq 0 \) is an externally specified priority weight based on each user's role or authority level (e.g., assigning higher weight to a CEO than to an intern).</p>
+
+                    <h1>Why is this hard? Single-principal training assumptions</h1>
+
+                    <p>Modern LLMs are trained under a single-user assumption. <strong>Instruction tuning</strong> minimizes the negative log-likelihood of a reference response for a single user:</p>
+
+                    <center>
+                        <div class="mathjax-mobile">
+                            \[ \min_\theta \;\mathbb{E}_{(x,y)\sim\mathcal{D}_{\mathrm{SFT}}} \left[ -\sum_{t=1}^{|y|} \log p_\theta(y_t \mid x, y_{\lt t}) \right]. \]
+                        </div>
+                    </center>
+
+                    <p><strong>RLHF</strong> further reinforces this single-principal assumption by learning a scalar reward model from pairwise preferences:</p>
+
+                    <center>
+                        <div class="mathjax-mobile">
+                            \[ \max_\phi \;\mathbb{E}_{(x,y^+,y^-)\sim\mathcal{D}_{\mathrm{pref}}} \left[ \log \sigma\!\left(r_\phi(x, y^+) - r_\phi(x, y^-)\right) \right], \]
+                        </div>
+                    </center>
+
+                    <p>yielding a single scalar preference signal that conflates user-specific desiderata into one shared objective, making it difficult for the agent to represent <em>multiple principals</em> or reason about cross-user trade-offs.</p>
+
+                    <p>As shown in the table below, even in multi-user settings, existing LLM interfaces serialize inputs from different users into a single <code>user</code> role, preventing explicit modeling of user identities, roles, and authority information.</p>
+
+                    <table style="width:45%; margin:16px auto; border-collapse:collapse; font-size:14px; font-family:monospace;">
+                      <thead>
+                        <tr style="border-bottom:2px solid #333;">
+                          <th style="text-align:left; padding:8px; width:22%;">Template</th>
+                          <th style="text-align:left; padding:8px;">Message Schema</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr style="border-bottom:1px solid #DDD;">
+                          <td style="padding:8px; vertical-align:top; font-family:inherit;">Single-user</td>
+                          <td style="padding:8px; vertical-align:top;"><pre style="margin:0; font-size:inherit; font-family:inherit; white-space:pre; background:none; border:none; padding:0;">{<span style="color:#555">"messages"</span>: [
+  {<span style="color:#555">"role"</span>: <b>"system"</b>,    <span style="color:#555">"content"</span>: "..."},
+  {<span style="color:#555">"role"</span>: <b>"user"</b>,      <span style="color:#555">"content"</span>: "..."},
+  {<span style="color:#555">"role"</span>: <b>"assistant"</b>, <span style="color:#555">"content"</span>: "..."}
+]}</pre></td>
+                        </tr>
+                        <tr style="border-bottom:1px solid #DDD;">
+                          <td style="padding:8px; vertical-align:top; font-family:inherit;">Multi-user<br>(serialized)</td>
+                          <td style="padding:8px; vertical-align:top;"><pre style="margin:0; font-size:inherit; font-family:inherit; white-space:pre; background:none; border:none; padding:0;">{<span style="color:#555">"messages"</span>: [
+  {<span style="color:#555">"role"</span>: <b>"system"</b>,    <span style="color:#555">"content"</span>: "..."},
+  {<span style="color:#555">"role"</span>: <b>"user"</b>,      <span style="color:#555">"content"</span>: "userA says:... userB says:..."},
+  {<span style="color:#555">"role"</span>: <b>"assistant"</b>, <span style="color:#555">"content"</span>: "..."}
+]}</pre></td>
+                        </tr>
+                        <tr style="border-bottom:2px solid #333;">
+                          <td style="padding:8px; vertical-align:top; font-family:inherit;">Multi-user<br>(native)</td>
+                          <td style="padding:8px; vertical-align:top;"><pre style="margin:0; font-size:inherit; font-family:inherit; white-space:pre; background:none; border:none; padding:0;">{<span style="color:#555">"messages"</span>: [
+  {<span style="color:#555">"role"</span>: <b>"system"</b>,    <span style="color:#555">"content"</span>: "..."},
+  {<span style="color:#555">"role"</span>: <b>"userA"</b>,     <span style="color:#555">"content"</span>: "..."},
+  {<span style="color:#555">"role"</span>: <b>"userB"</b>,     <span style="color:#555">"content"</span>: "..."},
+  {<span style="color:#555">"role"</span>: <b>"assistant"</b>, <span style="color:#555">"content"</span>: "..."}
+]}</pre></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <p class="fig-caption"><b>Table 1.</b> Chat templates under the single-user assumption. Even in multi-user settings, existing LLM interfaces serialize inputs from different users into a single <code>user</code> role.</p>
+
+                    <h1>Core Challenges</h1>
+                    <ul>
+                        <li><strong>User Role and Preference Modeling:</strong> The agent must reliably identify distinct users and model their individualized objectives and preferences.</li>
+                        <li><strong>Information Asymmetry and Selective Visibility:</strong> Each user maintains a permission-scoped private context \( C_i \). The agent must manage information access and sharing&mdash;deciding <em>which</em> parts of each \( C_i \) can be used, <em>what</em> can be revealed, and <em>to whom</em>.</li>
+                        <li><strong>Conflict Resolution:</strong> Different users may pursue conflicting objectives. The agent must make principled trade-offs when a solution cannot satisfy everyone.</li>
+                    </ul>
+		    </div>
+
+		</div>
+
+		<div class="content-margin-container" id="stress_testing">
+				<div class="margin-left-block">
+				</div>
+		    <div class="main-content-block">
+					<h1>Stress-Testing Today's LLMs in Multi-Principal Scenarios</h1>
+                    <p>We design three targeted stress-testing scenarios to evaluate how frontier LLMs perform in multi-user settings. Each scenario targets a different core challenge.</p>
+		    </div>
+		</div>
+
+		<div class="content-margin-container">
+			<div class="margin-left-block">
+			</div>
+		    <div class="main-content-block">
+				<img src="image/figure2_stress_testing.png" alt="Figure 2: Overview of Stress Testing Scenarios" style="width: 700px">
+				<p class="fig-caption"><b>Figure 2.</b> Overview of our three Stress Testing Scenarios: Multi-User Instruction Following (top-left), Cross-User Access Control (top-right), and Multi-User Meeting Coordination (bottom).</p>
+		    </div>
+		</div>
+
+		<div class="content-margin-container">
+			<div class="margin-left-block">
+			</div>
+		    <div class="main-content-block">
+                    <p><strong>Scenario 1: Multi-User Instruction Following.</strong> This task evaluates whether an LLM can resolve conflicting instructions from different users by correctly recognizing roles and authority. The agent may simultaneously receive a high-authority directive from a CEO and a conflicting request from an engineer. Performance is measured by <em>Selection F1</em> and <em>Execution Accuracy</em>.</p>
+
+                    <p><strong>Scenario 2: Cross-User Access Control.</strong> This task evaluates whether an LLM agent can enforce access control when multiple users interact with a sensitive resource (e.g., a salary database). The agent must refuse unauthorized requests without leaking private information, while still answering legitimate queries. We report a <em>Privacy Score</em> and a <em>Utility Score</em>.</p>
+
+                    <p><strong>Scenario 3: Multi-User Meeting Coordination.</strong> This task evaluates whether an LLM agent can schedule a meeting for multiple users when each participant provides different availability, requiring the agent to actively request missing information, reconcile inconsistent constraints, and negotiate a feasible time slot. We evaluate <em>Success Rate</em>.</p>
+		    </div>
+		</div>
+
+
+		<div class="content-margin-container" id="results">
+			<div class="margin-left-block">
+			</div>
+		    <div class="main-content-block">
+				<h1>Experimental Results</h1>
+                <p>We evaluate a diverse set of state-of-the-art proprietary and open-weight LLMs across our three stress test scenarios. The table below summarizes the performance of all evaluated models.</p>
+		    </div>
+		</div>
+
+		<div class="content-margin-container">
+			<div class="margin-left-block">
+			</div>
+		    <div class="main-content-block">
+				<img src="image/table2_results.png" alt="Table 2: Performance of various models across Muses-Bench scenarios" style="width: 550px">
+				<p class="fig-caption"><b>Table 2.</b> Performance of various models across Muses-Bench scenarios. Metrics shown are Mean &plusmn; Standard Error. The best performance is <b>bolded</b> and the second best is <u>underlined</u>.</p>
+		    </div>
+		</div>
+
+		<div class="content-margin-container">
+			<div class="margin-left-block">
+			</div>
+		    <div class="main-content-block">
+                <h1>Inter-user Conflicts Impair Instruction Execution</h1>
+                <p>The figure below compares instruction execution accuracy under <em>aligned</em> and <em>conflicting</em> multi-user settings. Across all evaluated models, the presence of inter-user conflict leads to a clear and consistent performance drop. While most models achieve high accuracy when user instructions are mutually aligned, their execution reliability deteriorates once inter-user conflicts arise.</p>
+		    </div>
+		</div>
+
+		<div class="content-margin-container">
+			<div class="margin-left-block">
+			</div>
+		    <div class="main-content-block">
+				<img src="image/figure3_aligned_conflict.png" alt="Figure 3: Instruction execution accuracy under Aligned versus Conflict settings" style="width: 500px">
+				<p class="fig-caption"><b>Figure 3.</b> Instruction execution accuracy under <em>Aligned</em> versus <em>Conflict</em> settings. Aligned cases contain mutually consistent requests, while Conflict cases introduce competing instructions that require prioritization and refusal.</p>
+		    </div>
+		</div>
+
+		<div class="content-margin-container">
+			<div class="margin-left-block">
+			</div>
+		    <div class="main-content-block">
+                <h1>Gradual Erosion of Privacy over Multi-round Interactions</h1>
+                <p>The figure below shows a clear and consistent decline in privacy protection as the number of interaction rounds increases across nearly all evaluated LLMs. Although many models achieve high privacy scores in early rounds, their ability to maintain strict access control progressively deteriorates over longer conversations. The privacy leakage accumulates as the agent is repeatedly exposed to user requests, contextual cues, and adversarial pressure across rounds.</p>
+		    </div>
+		</div>
+
+		<div class="content-margin-container">
+			<div class="margin-left-block">
+			</div>
+		    <div class="main-content-block">
+				<img src="image/figure4_privacy_erosion.png" alt="Figure 4: Privacy preservation under multi-round cross-user access control" style="width: 500px">
+				<p class="fig-caption"><b>Figure 4.</b> Privacy preservation under multi-round cross-user access control. Most models' performance drops significantly over multi-turn interactions.</p>
+		    </div>
+		</div>
+
+		<div class="content-margin-container">
+			<div class="margin-left-block">
+			</div>
+		    <div class="main-content-block">
+                <h1>Efficiency Bottlenecks in Multi-user Coordination</h1>
+                <p>The figure below reveals a strong relationship between coordination success and interaction efficiency in multi-user meeting scheduling. Models with higher success rates tend to reach a valid meeting slot in fewer interaction rounds. Weaker models require one to two additional interaction rounds on average to arrive at a feasible solution. Across nearly all models, success rates under partial-information settings are consistently lower than those under full-information settings.</p>
+		    </div>
+		</div>
+
+		<div class="content-margin-container">
+			<div class="margin-left-block">
+			</div>
+		    <div class="main-content-block">
+				<img src="image/figure5_coordination.png" alt="Figure 5: Meeting scheduling performance under full vs. partial disclosure" style="width: 500px">
+				<p class="fig-caption"><b>Figure 5.</b> Meeting scheduling performance under full vs. partial disclosure. Success rates (top) and average turns taken (bottom) across different models. Full disclosure consistently outperforms partial disclosure in both metrics.</p>
+		    </div>
+		</div>
+
+
+		<div class="content-margin-container" id="future">
+			<div class="margin-left-block">
+			</div>
+		    <div class="main-content-block">
+				<h1>Future Directions</h1>
+                <p>Our study identifies several promising directions for future research on multi-user large language model agents:</p>
+                <ul>
+                    <li><strong>Native multi-user interfaces and representations.</strong> Future systems should move beyond ad hoc prompt serialization and develop native message schemas and context-management mechanisms that explicitly encode user identity, roles, authority levels, and visibility constraints as first-class primitives.</li>
+                    <li><strong>Long-horizon safety and privacy benchmarks.</strong> Current evaluations primarily focus on short interactions; extending benchmarks to long-horizon settings would allow systematic stress testing of permission consistency, privacy preservation, and policy compliance under sustained adversarial pressure.</li>
+                    <li><strong>Principled conflict resolution objectives.</strong> Multi-user instruction following naturally raises questions of preference aggregation and conflict arbitration. Connecting this problem to social choice theory and mechanism design may help formalize how utilities are aggregated, hierarchies are enforced, and justifications are generated.</li>
+                    <li><strong>Tooling and auditability.</strong> Integrating policy enforcement with structured tool calls, access checks, and interaction logs would improve transparency and reproducibility, enabling multi-user decisions to be inspected, audited, and verified post hoc.</li>
+                    <li><strong>Human-in-the-loop and deployment studies.</strong> Moving beyond simulated users toward real-world collaborative workflows is crucial for understanding which failure modes matter most in practice and which governance assumptions are acceptable.</li>
+                </ul>
+		    </div>
+		</div>
+
+	<hr>
+		<center><a>Multi-User Large Language Model Agents</a></center>
+
+	</body>
+
+	<script>
+  // Load MathJax on demand
+  function loadMathJaxOnce() {
+      if (window.MathJax || document.getElementById('mathjax-loader')) return;
+      window.MathJax = {
+        tex: { inlineMath: [["\\(", "\\)"], ["$", "$"]], displayMath: [["\\[", "\\]"]] },
+        options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+      };
+      var s = document.createElement('script');
+      s.id = 'mathjax-loader';
+      s.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.min.js';
+      s.async = true;
+      document.head.appendChild(s);
+  }
+
+  function applyDisplay() {
+      document.body.classList.add('show-mathjax');
+      loadMathJaxOnce();
+  }
+
+// Apply the math display setup when the DOM is fully loaded
+document.addEventListener('DOMContentLoaded', applyDisplay);
+
+</script>
+
+</html>
