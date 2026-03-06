@@ -1,9 +1,12 @@
-<h1 align="center"><img src="assets/stanford_logo.png" alt="Stanford University" width="60" style="vertical-align: middle;"> Multi-User Large Language Model Agents</h1>
+<h1 align="center">🎭 Multi-User Large Language Model Agents</h1>
 <p align="center">
   <a href="https://arxiv.org/abs/XXXX.XXXXX"><img src="https://img.shields.io/badge/arXiv-XXXX.XXXXX-b31b1b.svg" alt="arXiv"></a>
   <a href="https://shuyhere.github.io/multi-user-llm/"><img src="https://img.shields.io/badge/Project-Page-1E3A5F.svg" alt="Project Page"></a>
   <a href="https://opensource.org/licenses/Apache-2.0"><img src="https://img.shields.io/badge/License-Apache%202.0-blue.svg" alt="License"></a>
   <a href="https://www.python.org/downloads/release/python-3100/"><img src="https://img.shields.io/badge/python-3.10+-blue.svg" alt="Python 3.10+"></a>
+</p>
+<p align="center">
+  <img src="assets/stanford_logo.png" alt="Stanford University" width="20" style="vertical-align: middle;"> Stanford University &nbsp;·&nbsp; KAUST &nbsp;·&nbsp; University of Toronto &nbsp;·&nbsp; MIT
 </p>
 
 Official code for the paper: **"Multi-User Large Language Model Agents"**
