@@ -152,5 +152,10 @@ This project is licensed under the [Apache License 2.0](LICENSE).
 
 ## 📝 Citation
 
-TODO
+@misc{yang2024multiuserllmagents,
+  title={Multi-User Large Language Model Agents},
+  author={Yang, Shu and Zhu, Shenzhe and Zhu, Hao and Enr{\'\i}quez, Jos{\'e} Ram{\'o}n and Wang, Di and Pentland, Alex and Bakker, Michiel A. and Pei, Jiaxin},
+  year={2024},
+  note={Manuscript under review}
+}
 
