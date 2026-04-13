@@ -152,10 +152,15 @@ This project is licensed under the [Apache License 2.0](LICENSE).
 
 ## 📝 Citation
 
-@misc{yang2024multiuserllmagents,
+```bibtex
+@misc{yang2026multiuserllmagents,
   title={Multi-User Large Language Model Agents},
   author={Yang, Shu and Zhu, Shenzhe and Zhu, Hao and Enr{\'\i}quez, Jos{\'e} Ram{\'o}n and Wang, Di and Pentland, Alex and Bakker, Michiel A. and Pei, Jiaxin},
-  year={2024},
-  note={Manuscript under review}
+  year={2026},
+  eprint={2604.08567},
+  archivePrefix={arXiv},
+  primaryClass={cs.CL},
+  url={https://arxiv.org/abs/2604.08567}
 }
+```
 
